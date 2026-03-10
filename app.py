@@ -52,10 +52,10 @@ with st.form('header_form', clear_on_submit=False):
     alumno = st.text_input('Nombre del alumno', key='alumno_input')
     fecha = st.date_input('Fecha', value=datetime.today(), key='fecha_input')
     firma = st.text_area('Firma del asesor (formato multilínea)',
-                         value='',
+                         value='Pedro P.\nAsesor Virtual\nM2C1G82-021.',
                          height=100,
                          key='firma_input',
-                         placeholder='Ricardo Raúl Estrada Pérez\nAsesor Virtual\nM2C1G82-021.')
+                         placeholder='Pedro P.\nAsesor Virtual\nM2C1G82-021.')
     submitted = st.form_submit_button('Iniciar evaluación')
 
 if submitted or 'started' in st.session_state:

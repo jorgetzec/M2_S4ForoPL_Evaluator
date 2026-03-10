@@ -22,7 +22,7 @@ Aplicación web para evaluar participaciones en el **FI** del M2 de **PLS**. Gen
 ## Arquitectura del proyecto
 
 ```
-20260211_m2_foro_prepaenlinea-evaluador/
+M2_S4ForoPL_Evaluator/
 ├── app.py                  # Aplicación principal Streamlit (~840 líneas)
 ├── resources.json          # Banco de recursos de apoyo (6 recursos, JSON)
 ├── data.csv                # Almacenamiento de evaluaciones (generado automáticamente)
@@ -66,8 +66,8 @@ Aplicación web para evaluar participaciones en el **FI** del M2 de **PLS**. Gen
 ### 1. Clonar el repositorio
 
 ```powershell
-git clone <url-del-repositorio>
-cd 20260211_m2_foro_prepaenlinea-evaluador
+git clone https://github.com/jorgetzec/M2_S4ForoPL_Evaluator.git
+cd M2_S4ForoPL_Evaluator
 ```
 
 ### 2. Crear entorno virtual con `uv`

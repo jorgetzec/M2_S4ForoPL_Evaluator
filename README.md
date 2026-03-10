@@ -28,17 +28,6 @@ M2_S4ForoPL_Evaluator/
 ├── data.csv                # Almacenamiento de evaluaciones (generado automáticamente)
 ├── requirements.txt        # Dependencias de Python
 ├── metricas_criterios.md   # Documentación de métricas y criterios
-│
-├── docs/                   # Documentación de referencia
-│   ├── M2_S4_foro_integracion_rubrica.md       # Rúbrica oficial del foro
-│   ├── M2_S4_foro_integracion_instrucciones.md # Instrucciones de la actividad
-│   ├── 20261802_retroalimentacion_ejemplo.md   # Ejemplo de retroalimentación ideal
-│   ├── 20261802_Propuesta_mejorada.md          # Propuesta de diseño mejorada
-│   ├── 20260218_Propuesta_inicial.md           # Propuesta de diseño inicial
-│   ├── 20260218_caterogrias_rubrica_Excel.md   # Categorías de rúbrica (Excel)
-│   ├── 20260218_info_evaluador_foro.md         # Información general del evaluador
-│   └── Compilado M02_RED_DSAyDC.csv           # Compilado de recursos educativos M02
-│
 ├── templates/
 │   └── feedback_template.md  # Plantilla base de retroalimentación
 │
@@ -117,62 +106,6 @@ Adicionalmente, selecciona el nivel de **Originalidad** (deducción de 0 a -25 p
 
 ---
 
-## Lógica de puntuación
-
-### Cognitivo (40 pts)
-Utiliza un sistema de **puntajes ordinales** para cada métrica (respuesta a PD1, PD2, opiniones, conclusión) y una cascada que evita caídas abruptas de puntos:
-
-| Nivel | Puntos | Criterio principal |
-|---|---|---|
-| Experto | 40 | ≥5 aportaciones, fundamentos claros en PD1/PD2, ≥2 opiniones fundamentadas, conclusión clara |
-| Capacitado | 34 | ≥4 aportaciones, respuestas generales, ≥2 opiniones generales |
-| Aceptable | 32 | ≥3 aportaciones, respuestas superficiales, ≥1 opinión |
-| Aprendiz | 28 | ≥3 aportaciones, respuestas vagas |
-| Requiere apoyo | 24 | ≥1 aportación |
-| No evaluable | 0 | Sin aportaciones |
-
-### Otros criterios
-Comunicativo, Colaborativo y Pensamiento Crítico usan un sistema de **puntuación compuesta** que suma puntajes ordinales de cada sub-métrica y los mapea a niveles (Excelente, Bien, Regular, Suficiente, Insuficiente).
-
-### Actitudinal (15 pts)
-Basado en el porcentaje de instrucciones cumplidas (checklist de 10 ítems).
-
-### Originalidad (deducción)
-Aplica deducciones de -6.25 a -25 puntos según el nivel de citas y referencias.
-
----
-
-## Banco de recursos (`resources.json`)
-
-El archivo `resources.json` contiene **6 recursos educativos** para el Foro de Integración del M02, organizados por criterio:
-
-| Criterio | Recurso | Tipo |
-|---|---|---|
-| Cognitivo | El resumen | Artículo |
-| Cognitivo | Características del relato, resumen y reseña | Infografía |
-| Comunicativo | Comunicación asertiva | Infografía |
-| Comunicativo | Escribir y hablar bien en la era digital | Artículo |
-| Comunicativo | Habilidades de comunicación en la digitalidad | Artículo |
-| Colaborativo | Participación en foros virtuales | Guía |
-
-La función `suggest_resources()` selecciona automáticamente 1-2 recursos de las áreas con **menor puntaje relativo** y los integra en la retroalimentación en prosa (sin viñetas).
-
-Para agregar más recursos, edita `resources.json` siguiendo el formato:
-
-```json
-{
-  "id": "r7",
-  "criterio": "Comunicativo",
-  "etiqueta": "Nombre del recurso",
-  "link": "https://ejemplo.com",
-  "descripcion": "Breve descripción del recurso.",
-  "tags": ["tag1", "tag2"],
-  "referencia": "Cita APA del recurso."
-}
-```
-
----
-
 ## Archivos de datos
 
 ### `data.csv`
@@ -183,36 +116,6 @@ alumno, fecha, firma, cognitivo, cog_level, actitudinal, act_level,
 comunicativo, com_level, colaborativo, colab_level, pensamiento_critico,
 critico_level, originalidad_deduccion, orig_level, total, feedback
 ```
-
-### `docs/Compilado M02_RED_DSAyDC.csv`
-Compilado maestro de recursos educativos digitales del Módulo 2. Contiene los recursos originales de los que se seleccionaron los del Foro de Integración.
-
----
-
-## Documentación de referencia
-
-| Archivo | Contenido |
-|---|---|
-| `docs/M2_S4_foro_integracion_rubrica.md` | Rúbrica oficial con niveles, puntajes y descriptores |
-| `docs/M2_S4_foro_integracion_instrucciones.md` | Instrucciones de la actividad para el alumno |
-| `docs/20261802_retroalimentacion_ejemplo.md` | Ejemplo de retroalimentación ideal en prosa |
-| `metricas_criterios.md` | Documentación técnica de métricas y criterios |
-
----
-
-## Personalización
-
-### Modificar la rúbrica
-Los puntajes y niveles están definidos directamente en `app.py` dentro de cada sección de criterio. Busca los diccionarios `_pd_score`, `_arg_s`, `_ret_s`, etc., para ajustar la ponderación.
-
-### Modificar la prosa de retroalimentación
-Las frases se ensamblan en la sección `# GENERAR RETROALIMENTACIÓN EN PROSA` de `app.py`. Cada métrica tiene un diccionario que mapea la opción seleccionada a una frase específica (ej. `_pd1_txt`, `_conc_txt`, `_arg_txt`).
-
-### Agregar nuevos criterios
-1. Agrega la sección con `st.header()` y los radio buttons.
-2. Define la lógica de puntuación.
-3. Agrega la generación de prosa en la sección de retroalimentación.
-4. Incluye el criterio en el diccionario `_scores` para que los recursos se sugieran correctamente.
 
 ---
 

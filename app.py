@@ -69,7 +69,7 @@ if submitted or 'started' in st.session_state:
     # ===== 1. COGNITIVO (máx 40 puntos) ================================
     # ===================================================================
     st.header('1. Cognitivo (máx 40 puntos)')
-    st.info('Base: máximo 5 aportaciones (pregunta 1, pregunta 2, 2 opiniones de compañeros, 1 conclusión)')
+    st.info('Base: máximo 5 aportaciones. **Regla de rigor:** se restarán 10 puntos del total por cada aportación faltante.')
 
     with st.expander('Métricas Cognitivas', expanded=True):
         st.markdown('**Total de aportaciones**')
@@ -494,10 +494,15 @@ if submitted or 'started' in st.session_state:
     st.header('Resumen de calificación')
 
     subtotal = cog_pts + act_pts + com_pts + colab_pts + critico_pts
-    total = subtotal + orig_deduction
+    
+    # Penalización por falta de aportaciones (Rigor solicitado)
+    faltantes = max(0, 5 - cog_aportaciones)
+    deduccion_aportaciones = faltantes * 10
+    
+    total = subtotal + orig_deduction - deduccion_aportaciones
     total = max(0, min(100, total))
 
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
     with col1:
         st.metric('Cognitivo', f'{cog_pts} / 40')
         st.caption(f'🏷️ {cog_level}')
@@ -516,8 +521,11 @@ if submitted or 'started' in st.session_state:
     with col6:
         st.metric('Originalidad', orig_deduction)
         st.caption(f'🏷️ {orig_level}')
+    with col7:
+        st.metric('Faltantes', f'-{deduccion_aportaciones}')
+        st.caption(f'⚠️ {faltantes} omitidas')
 
-    st.write(f'**Subtotal:** {subtotal} | **Deducción:** {orig_deduction} | **TOTAL:** {total} / 100')
+    st.write(f'**Subtotal:** {subtotal} | **Originalidad:** {orig_deduction} | **Faltantes (x10):** -{deduccion_aportaciones} | **TOTAL:** {total} / 100')
 
     # ===================================================================
     # ===== GENERAR RETROALIMENTACIÓN EN PROSA ==========================
@@ -688,10 +696,10 @@ if submitted or 'started' in st.session_state:
 
         _err_txt = {
             '0 errores': 'No presentas errores en sintaxis, ortografía o puntuación, y presentas las ideas de manera lógica y congruente. ¡Excelente trabajo en este aspecto!',
-            '1–3 errores': 'Presentaste entre 1 y 3 errores de redacción menores; con una revisión rápida antes de publicar podrás eliminarlos fácilmente.',
-            '4–5 errores': 'Presentaste entre 4 y 5 errores de redacción. Te recomiendo revisar previamente lo que escribes; una lectura antes de publicar puede hacer una gran diferencia.',
-            '6–8 errores': 'Presentaste entre 6 y 8 errores de redacción. Es importante que cuides la ortografía y la sintaxis; te sugiero redactar previamente en un procesador de texto y revisar antes de publicar.',
-            '>8 errores': 'Presentaste más de 8 errores de redacción. Te recomiendo hacer una revisión previa cuidadosa antes de publicar; redactar primero en un procesador de texto con corrector ortográfico puede ayudarte mucho.'
+            '1–3 errores': 'Noté algunos errores de redacción menores; con una revisión rápida antes de publicar podrás eliminarlos fácilmente.',
+            '4–5 errores': 'Presentaste ciertos errores de redacción. Te recomiendo revisar previamente lo que escribes; una lectura antes de publicar puede hacer una gran diferencia.',
+            '6–8 errores': 'Se identificaron varios errores de redacción. Es importante que cuides la ortografía y la sintaxis; te sugiero redactar previamente en un procesador de texto y revisar antes de publicar.',
+            '>8 errores': 'Presentaste una cantidad considerable de errores de redacción. Te recomiendo hacer una revisión previa cuidadosa antes de publicar; redactar primero en un procesador de texto con corrector ortográfico puede ayudarte mucho.'
         }
         fb.append(f'{_err_txt[com_errores]}\n\n')
 

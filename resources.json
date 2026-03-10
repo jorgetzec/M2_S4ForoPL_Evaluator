@@ -1,0 +1,56 @@
+[
+  {
+    "id": "r1",
+    "criterio": "Cognitivo",
+    "etiqueta": "El resumen",
+    "link": "https://www.fumc.edu.co/documentos/leamos/Resumen_convertido.pdf",
+    "descripcion": "Artículo que explica qué es un resumen y cómo elaborarlo correctamente.",
+    "tags": ["resumen", "redacción", "gramática", "comunicación"],
+    "referencia": "Cano María (s.f) Centro de lectura y escritura leamos «El resumen» [Presentación]."
+  },
+  {
+    "id": "r2",
+    "criterio": "Cognitivo",
+    "etiqueta": "Características del relato, el resumen y la reseña",
+    "link": "https://drive.google.com/file/d/118swnpLILYMeSkbJRtYiecytzElQjCLV/view?usp=sharing",
+    "descripcion": "Infografía que compara las características del relato, el resumen y la reseña.",
+    "tags": ["relato", "resumen", "reseña", "comunicación"],
+    "referencia": "Anguas, C. (2022). Características del relato, el resumen y la reseña [Infografía]."
+  },
+  {
+    "id": "r3",
+    "criterio": "Comunicativo",
+    "etiqueta": "Comunicación asertiva",
+    "link": "https://www.cch.unam.mx/estudiante/comunicacion-asertiva",
+    "descripcion": "Infografía sobre comunicación asertiva y expresión de opiniones con respeto.",
+    "tags": ["comunicación", "oral", "convivencia", "expresión de opiniones"],
+    "referencia": "Colegio de Ciencias y Humanidades. (s.f). Comunicación asertiva, Hablando se entiende la gente [Infografía]. CCH-UNAM."
+  },
+  {
+    "id": "r4",
+    "criterio": "Comunicativo",
+    "etiqueta": "Escribir y hablar bien en la era digital",
+    "link": "https://www.nuevarevista.net/escribir-hablar-bien-la-digital/",
+    "descripcion": "Artículo sobre la importancia de escribir y hablar correctamente en entornos digitales.",
+    "tags": ["comunicación", "oral", "escrita", "digital"],
+    "referencia": "Grijelmo, A. (2018, 8 de junio). Escribir y hablar bien en la era digital. Nueva Revista, No. 182."
+  },
+  {
+    "id": "r5",
+    "criterio": "Comunicativo",
+    "etiqueta": "Habilidades de comunicación en la digitalidad",
+    "link": "https://www.revista.unam.mx/vol.18/num3/art25/art25.pdf",
+    "descripcion": "Artículo sobre las habilidades de comunicación escrita, netiqueta y normas de cortesía en foros.",
+    "tags": ["redacción", "comunicación", "netiqueta", "norma de cortesía"],
+    "referencia": "Bucio J. (2017). Hablar por escrito, nuevas habilidades de comunicación en la digitalidad. Revista Digital Universitaria, Vol. 18, No. 3."
+  },
+  {
+    "id": "r6",
+    "criterio": "Colaborativo",
+    "etiqueta": "Participación en foros virtuales",
+    "link": "https://blog.ucc.edu.ar/pronte/files/2010/04/RecomendacionesParticipacionForos.pdf",
+    "descripcion": "Guía con recomendaciones prácticas para mejorar la participación en foros virtuales.",
+    "tags": ["plataforma", "tutorial", "foro", "participación"],
+    "referencia": "Programa de apoyo a las Nuevas Tecnologías Educativas. (2010). Recomendaciones para la participación en foros virtuales. Pronte."
+  }
+]

@@ -195,7 +195,6 @@ if submitted or 'started' in st.session_state:
 
     ACTITUDINAL_INSTRUCTIONS = [
         'Usa creatividad y originalidad',
-        'Cita fuentes si usa recursos',
         'Intervenciones generan diversidad',
         'Evita subir documentos (usa enlaces)',
         'Respeta netiqueta',
@@ -333,7 +332,7 @@ if submitted or 'started' in st.session_state:
         st.markdown('**Días de participación durante la semana**')
         colab_dias = st.radio(
             'Días',
-            options=['No participó', '1 día (final de semana)', '1 día (todo el mismo día)', '2 días', '3–4 días', '5 días'],
+            options=['No participó', '1 día (final de semana)', '1 día (todo el mismo día)', '2 días', '3 días', '4 días', '5 días'],
             horizontal=True,
             key='colab_dias',
             label_visibility='collapsed'
@@ -350,7 +349,7 @@ if submitted or 'started' in st.session_state:
 
         # Scoring
         _dias_s = {'No participó': 0, '1 día (final de semana)': 1, '1 día (todo el mismo día)': 2,
-                   '2 días': 3, '3–4 días': 4, '5 días': 5}
+                   '2 días': 3, '3 días': 4, '4 días': 4, '5 días': 5}
         _dial_s = {'No genera diálogo': 0, 'Aportaciones vagas / sin conclusiones': 1,
                    'Generalmente promueve diálogo': 2, 'Promueve diálogo y conclusiones': 3}
 
@@ -609,35 +608,49 @@ if submitted or 'started' in st.session_state:
         # ---------------------------------------------------------------
         no_cumplidas = [instr for instr, val in instructions_check.items() if not val]
 
+        _act_mapping = {
+            'Usa creatividad y originalidad': 'procurar usar mayor creatividad y originalidad en tus aportaciones',
+            'Intervenciones generan diversidad': 'asegurarte de que tus intervenciones generen diversidad de opiniones y debate',
+            'Evita subir documentos (usa enlaces)': 'evitar subir documentos directamente al foro (es mejor utilizar enlaces para compartir información)',
+            'Respeta netiqueta': 'seguir puntualmente las normas de netiqueta en todas tus participaciones',
+            'Opiniones breves (1-3 párrafos)': 'procurar que tus opiniones sean breves y concisas, idealmente de uno a tres párrafos',
+            'Redacción previa (sin errores plataforma)': 'revisar la redacción para evitar errores de ortografía, gramaticales o de redacción, para que tus aportaciones puedan entenderse con mayor claridad'
+        }
+
         if act_level == 'Excelente':
-            fb.append('Quiero destacar que seguiste todas las instrucciones para participar en el foro. ')
-            fb.append('Te has manejado con cortesía y mostraste apertura a las aportaciones de tus compañeros, ')
+            fb.append('En el aspecto actitudinal, lograste atender todas las instrucciones de la actividad. ')
+            fb.append('Quiero destacar que te has manejado con cortesía y mostraste apertura a las aportaciones de tus compañeros, ')
             fb.append('lo cual es fundamental para el aprendizaje colaborativo.\n\n')
-        elif act_level in ['Bien', 'Regular']:
-            fb.append(f'En cuanto a las instrucciones, seguiste la mayoría para participar en la actividad ({cumplidas} de {total_instr}). ')
-            if no_cumplidas:
-                fb.append('Para las próximas actividades, te sugiero que pongas especial atención en los siguientes aspectos: ')
-                fb.append(', '.join([nc.lower() for nc in no_cumplidas]))
-                fb.append('. ')
-            fb.append('Te recomiendo revisar la rúbrica con detalle, ya que te dará una idea más clara de lo que se evaluará.\n\n')
-        elif act_level == 'Suficiente':
-            fb.append(f'Respecto a las instrucciones, atendiste aproximadamente el {porcentaje:.0f}% de ellas ({cumplidas} de {total_instr}). ')
-            if no_cumplidas:
-                fb.append('Noté que dejaste de lado algunos aspectos como: ')
-                fb.append(', '.join([nc.lower() for nc in no_cumplidas]))
-                fb.append('. ')
-            fb.append('Hay una buena oportunidad de mejorar en la próxima evaluación si revisas la rúbrica con detenimiento; ')
-            fb.append('si tuvieras dudas durante el proceso, te invito a escribirme por el mensajero para resolverlas.\n\n')
         else:
-            fb.append('Por otro lado, puedo ver que dejaste de lado muchas de las instrucciones para participar en la actividad. ')
+            if act_level == 'Bien':
+                fb.append('Respecto a las instrucciones, atendiste la mayoría de ellas. ')
+            elif act_level == 'Regular':
+                fb.append('En cuanto a las instrucciones para la participación, atendiste gran parte de las indicaciones. ')
+            elif act_level == 'Suficiente':
+                fb.append('Respecto a las instrucciones del foro, lograste atender algunas de las indicaciones señaladas. ')
+            else:
+                fb.append('En esta ocasión, noté que atendiste pocas instrucciones para la participación en el foro. ')
+
             if no_cumplidas:
-                fb.append('Específicamente dejaste de lado: ')
-                fb.append(', '.join([nc.lower() for nc in no_cumplidas]))
-                fb.append('. ')
-            fb.append('Te sugiero para las próximas actividades revises a detalle las instrucciones para que logres ')
-            fb.append('obtener un mejor puntaje. Si durante el proceso tuvieras dudas, te invito a escribirme ')
-            fb.append('por el mensajero para resolverlas y puedas realizar una buena actividad. ')
-            fb.append('Te recomiendo revises la rúbrica, eso te dará una idea más clara de lo que se evaluará.\n\n')
+                fb.append('Para mejorar tu desempeño, te sugiero que en las próximas actividades intentes ')
+                # Join with grammar logic
+                phrases = [_act_mapping[nc] for nc in no_cumplidas]
+                if len(phrases) == 1:
+                    fb.append(f'{phrases[0]}. ')
+                else:
+                    fb.append(f'{", ".join(phrases[:-1])} y {phrases[-1]}. ')
+
+            # Reinforce participation frequency in Actitudinal
+            if colab_dias == '5 días':
+                fb.append('Es excelente que hayas mantenido una participación constante durante los cinco días de la semana, esto ayuda a que el diálogo sea continuo y fluido. ')
+            else:
+                fb.append('Recuerda que para un mejor aprovechamiento del foro, es sumamente importante que tus participaciones se realicen en diferentes días de la semana (lo ideal son al menos 5 días), ya que esto permite que interactúes con más compañeros y sigas el hilo de la discusión. ')
+            
+            fb.append('Te recomiendo revisar la rúbrica con detalle en futuras entregas, ya que te dará una idea más clara de lo que se evaluará. ')
+            if act_level in ['Suficiente', 'Insuficiente', 'No evaluable']:
+                fb.append('Si tuvieras dudas durante el proceso, te invito a escribirme por el mensajero para resolverlas y ayudarte a lograr una mejor evaluación.\n\n')
+            else:
+                fb.append('\n\n')
 
         # ---------------------------------------------------------------
         # COMUNICATIVO — warm prose assembled from metrics
@@ -646,32 +659,32 @@ if submitted or 'started' in st.session_state:
 
         _com_clar_txt = {
             'Clara y coherente': 'has presentado la información de manera clara, coherente y precisa',
-            'Clara pero incompleta': 'tu exposición fue clara aunque hace falta cubrir por completo la extensión esperada',
-            'Falta claridad': 'hace falta trabajar un poco en la manera en cómo organizas la información para que puedas presentarla de manera más clara, coherente y precisa. Te recomiendo hacer previamente una estructura de lo que te gustaría abordar, de modo que puedas presentar la información en orden',
-            'No clara': 'noté que tus aportaciones carecieron de claridad y coherencia. Te recomiendo hacer previamente una estructura de lo que te gustaría abordar, de modo que puedas presentar las ideas de forma más organizada'
+            'Clara pero incompleta': 'tu exposición fue clara aunque se presentó de manera general o parcial',
+            'Falta claridad': 'hace falta trabajar un poco en la manera en cómo organizas la información para que puedas presentarla de manera más clara y coherente. Te recomiendo estructurar tus ideas previamente para que tu mensaje se transmita mejor',
+            'No clara': 'noté que tus aportaciones pueden mejorar en claridad y estructura para expresar mayor coherencia. Te recomiendo hacer previamente una estructura de lo que te gustaría abordar, de modo que presentes las ideas de forma más organizada'
         }
         fb.append(f'{_com_clar_txt[com_claridad]}. ')
 
         if com_extension == 'Cubre extensión':
             fb.append('Cubriste adecuadamente la extensión solicitada. ')
         elif com_extension == 'Extensión incompleta':
-            fb.append('Cuida la extensión solicitada en tus aportaciones, ya que es un aspecto importante de la evaluación. ')
+            fb.append('Procura cuidar un poco más la extensión solicitada en tus aportaciones, ya que es un aspecto que ayuda a profundizar en tus ideas. ')
         else:
-            fb.append('No alcanzaste la extensión mínima esperada; te invito a dedicar un poco más de tiempo a desarrollar tus ideas. ')
+            fb.append('Te sugiero dedicar un espacio mayor al desarrollo de tus respuestas para poder alcanzar la extensión esperada en futuras participaciones. ')
 
         if com_reflexiva == 'Reflexiva y relevante':
             fb.append('Tus aportaciones fueron reflexivas y relevantes, lo cual se valora mucho. ')
         elif com_reflexiva == 'Poco reflexiva / ambigua':
-            fb.append('Tus aportaciones fueron poco reflexivas; te invito a profundizar más en tus análisis para enriquecer la discusión. ')
+            fb.append('Tus aportaciones muestran tus ideas iniciales; te invito a profundizar más en tus análisis para enriquecer la discusión grupal. ')
         else:
-            fb.append('Tus aportaciones carecieron de reflexión y comprensión del tema; recuerda que la reflexión personal es clave en este tipo de actividades. ')
+            fb.append('Sería muy enriquecedor para tu aprendizaje que procures profundizar más en la reflexión y análisis de tus próximas aportaciones. ')
 
         if com_netiqueta == 'Respeta netiqueta':
             fb.append('Te has manejado con cortesía y mostraste apertura, respetando las normas de netiqueta. ')
         elif com_netiqueta == 'Incumple netiqueta':
-            fb.append('Te invito a cuidar las normas de netiqueta en tus participaciones, pues son parte importante de la convivencia virtual. ')
+            fb.append('Te invito a integrar más las normas de netiqueta en tus participaciones, pues son parte esencial de nuestra convivencia virtual. ')
         else:
-            fb.append('Presentaste faltas graves a las normas de netiqueta; recuerda que el respeto y la cortesía son fundamentales en nuestro espacio de aprendizaje. ')
+            fb.append('Recuerda que el respeto y la cortesía son pilares fundamentales en nuestro espacio de aprendizaje; es vital cuidar siempre nuestras formas de comunicación pública. ')
 
         _err_txt = {
             '0 errores': 'No presentas errores en sintaxis, ortografía o puntuación, y presentas las ideas de manera lógica y congruente. ¡Excelente trabajo en este aspecto!',
@@ -692,14 +705,15 @@ if submitted or 'started' in st.session_state:
             '1 día (final de semana)': 'participaste una sola vez al final de la semana. Te invito a ingresar con mayor frecuencia para que puedas dialogar con tus compañeros a lo largo de la semana',
             '1 día (todo el mismo día)': 'ingresaste al foro pero realizaste todas tus aportaciones en un solo día. Te invito a distribuir tus participaciones durante la semana para que puedas generar un intercambio más rico con tus compañeros',
             '2 días': 'ingresaste y participaste en el foro ocasionalmente durante la semana (2 días), lo cual permitió cierto intercambio de ideas',
-            '3–4 días': 'participaste activamente durante 3 a 4 días de la semana, lo cual favoreció el diálogo con tus compañeros',
+            '3 días': 'participaste activamente durante 3 días de la semana, lo cual favoreció el diálogo con tus compañeros',
+            '4 días': 'participaste activamente durante 4 días de la semana, lo cual favoreció el diálogo con tus compañeros',
             '5 días': 'ingresaste y participaste continuamente durante la semana (5 días), mostrando gran compromiso con la actividad'
         }
         fb.append(f'{_dias_txt[colab_dias]}. ')
 
         _dial_txt = {
-            'No genera diálogo': 'Lamentablemente, tu aportación no permitió generar diálogo ni conclusiones sobre el tema. Te animo a que en futuras actividades busques interactuar más con las ideas de tus compañeros.',
-            'Aportaciones vagas / sin conclusiones': 'Tus aportaciones fueron un tanto vagas y no permitieron generar conclusiones significativas; te invito a ser más específico en tus comentarios para que puedan detonar un diálogo más productivo.',
+            'No genera diálogo': 'Te animo a que en futuras actividades tus aportaciones busquen detonar una mayor interacción y diálogo constructivo con las ideas de tus compañeros.',
+            'Aportaciones vagas / sin conclusiones': 'Para futuras ocasiones, te invito a ser más descriptivo en tus comentarios para favorecer un diálogo más profundo y una mejor generación de conclusiones.',
             'Generalmente promueve diálogo': 'Proporcionaste tu opinión sobre las aportaciones de tus compañeros y promoviste el diálogo y la generación de conclusiones sobre el tema mediante tus aportaciones.',
             'Promueve diálogo y conclusiones': 'Tus aportaciones promovieron activamente el diálogo y la generación de conclusiones sobre el tema, contribuyendo de manera significativa al aprendizaje de todos.'
         }
@@ -711,24 +725,24 @@ if submitted or 'started' in st.session_state:
         fb.append('Referente al criterio de pensamiento crítico, ')
 
         _arg_txt = {
-            'Argumentos desviados del tema': 'noté que tus argumentos se desviaron del tema central del foro. Te invito a que centres tus reflexiones en los planteamientos indicados para que tu participación sea más relevante',
-            'Argumentos no sólidos ni fundamentados': 'tus argumentos no fueron muy sólidos ni fundamentados. Es importante que fundamentes tus opiniones para que tengan mayor peso y aporten al diálogo',
-            'Fundamentos poco sólidos, sin coherencia': 'argumentaste con fundamentos poco sólidos y sin mucha coherencia entre tus ideas. Te invito a que fundamentes tus opiniones y generes retroalimentaciones más concretas que ofrezcan información útil',
+            'Argumentos desviados del tema': 'Sería de gran ayuda para tu evaluación que procures centrar tus reflexiones directamente en los planteamientos centrales del foro',
+            'Argumentos no sólidos ni fundamentados': 'Es importante que intentes fortalecer el sustento de tus opiniones; esto permitirá que tus aportaciones tengan mayor peso y contribuyan mejor al debate',
+            'Fundamentos poco sólidos, sin coherencia': 'Para mejorar este aspecto, te sugiero buscar que tus argumentos cuenten con un sustento más constante y guarden una relación clara entre sí',
             'Fundamentos sólidos, poca coherencia': 'argumentaste con fundamentos sólidos, aunque con poca coherencia entre tus ideas. Te animo a organizar mejor tus argumentos para que la lectura sea más fluida',
             'Argumenta coherentemente con fundamentos sólidos': 'argumentaste coherentemente con fundamentos sólidos, mostrando un análisis profundo del tema. ¡Se nota tu dedicación!'
         }
         fb.append(f'{_arg_txt[pc_argum]}. ')
 
         _retro_txt = {
-            'No retroalimenta': 'Además, no retroalimentaste a tus compañeros; recuerda que compartir tu perspectiva con ellos es una parte valiosa del proceso de aprendizaje.',
-            'Retroalimentación ambigua': 'Asimismo, tu retroalimentación a compañeros fue un tanto ambigua; te invito a que ofrezcas comentarios más específicos y útiles que ayuden a tus compañeros a mejorar.',
+            'No retroalimenta': 'Asimismo, no olvides compartir tu perspectiva sobre las ideas de tus compañeros, ya que esta interacción es esencial para el aprendizaje mutuo.',
+            'Retroalimentación ambigua': 'En tu retroalimentación a compañeros, te invito a brindar comentarios más puntuales y constructivos que faciliten el intercambio de ideas.',
             'Retroalimentación pertinente': 'Además, proporcionaste retroalimentación pertinente y constructiva a tus compañeros, lo cual es muy valioso para la dinámica del foro.'
         }
         fb.append(f'{_retro_txt[pc_retro]} ')
 
         _anal_txt = {
-            'No identifica ideas relevantes': 'Asimismo, es importante que tomes en cuenta las ideas más relevantes del foro para hacer nuevas aportaciones que enriquezcan la discusión.',
-            'Identifica algunas ideas relevantes': 'Identificaste algunas ideas relevantes; sin embargo, te animo a tomar en cuenta las ideas más destacadas del foro para hacer nuevas aportaciones que fortalezcan la discusión.',
+            'No identifica ideas relevantes': 'De igual modo, te motivo a identificar y retomar las ideas más significativas del foro para generar aportaciones que sigan enriqueciendo la discusión.',
+            'Identifica algunas ideas relevantes': 'Identificaste algunas ideas relevantes; te animo a profundizar en ellas para que tus nuevas aportaciones logren fortalecer aún más el debate grupal.',
             'Analiza aportaciones e identifica ideas relevantes': 'Analizaste las aportaciones de la semana e identificaste ideas relevantes para enriquecer la discusión, lo cual muestra compromiso con el aprendizaje colectivo.',
             'Analiza y hace nuevas aportaciones con base en análisis': 'Analizaste las aportaciones de tus compañeros e hiciste nuevas aportaciones con base en ese análisis, enriqueciendo significativamente la discusión. ¡Excelente trabajo!'
         }
@@ -791,11 +805,18 @@ if submitted or 'started' in st.session_state:
         fb.append(f'**PUNTAJE FINAL:** {total} / 100\n')
 
         st.session_state['feedback'] = ''.join(fb)
+        # Force update of the editor if it already exists
+        if 'feedback_editor' in st.session_state:
+            st.session_state['feedback_editor'] = st.session_state['feedback']
 
     # ===== EDITOR DE RETROALIMENTACIÓN =====
     if 'feedback' in st.session_state:
+        # Initialize feedback_editor if it doesn't exist
+        if 'feedback_editor' not in st.session_state:
+            st.session_state['feedback_editor'] = st.session_state['feedback']
+            
         st.header('Retroalimentación (editable)')
-        feedback_text = st.text_area('Editar retroalimentación', value=st.session_state['feedback'], height=500, key='feedback_editor')
+        feedback_text = st.text_area('Editar retroalimentación', height=500, key='feedback_editor')
 
         col_save, col_export, col_reset = st.columns(3)
 

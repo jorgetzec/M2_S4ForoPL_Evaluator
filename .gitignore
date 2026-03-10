@@ -24,6 +24,7 @@ wheels/
 .venv/
 venv/
 ENV/
+UV/
 uv.lock
 
 # Streamlit

@@ -1,6 +1,6 @@
-# Evaluador de Foro de Integración — Módulo 2
+# Evaluador de FI — M2
 
-Aplicación web para evaluar participaciones en el **Foro de Integración** del Módulo 2 de **Prepa en Línea SEP**. Genera retroalimentación personalizada en prosa, calcula puntajes según la rúbrica institucional y sugiere recursos de apoyo según las áreas de mejora de cada estudiante.
+Aplicación web para evaluar participaciones en el **FI** del M2 de **PLS**. Genera retroalimentación personalizada en prosa, calcula puntajes según la rúbrica institucional y sugiere recursos de apoyo según las áreas de mejora de cada estudiante.
 
 ---
 
@@ -218,4 +218,4 @@ Las frases se ensamblan en la sección `# GENERAR RETROALIMENTACIÓN EN PROSA` d
 
 ## Licencia
 
-Proyecto interno para uso educativo en **Prepa en Línea SEP**. No destinado a distribución comercial.
+Proyecto interno para uso educativo en **PLS**. No destinado a distribución comercial.

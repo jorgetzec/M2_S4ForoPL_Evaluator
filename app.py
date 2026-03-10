@@ -46,7 +46,7 @@ def save_evaluation(row):
 
 # ============== INTERFAZ STREAMLIT ==============
 
-st.title('Evaluador de Foro — Prototipo Streamlit (v4)')
+st.title('Evaluador de Foro - PLS')
 
 with st.form('header_form', clear_on_submit=False):
     alumno = st.text_input('Nombre del alumno', key='alumno_input')
